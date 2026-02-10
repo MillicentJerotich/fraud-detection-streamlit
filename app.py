@@ -62,10 +62,14 @@ tx_type = st.selectbox(
 # --------------------------------------------------
 # Create input dataframe (EXACT column names & order)
 # --------------------------------------------------
-input_data = pd.DataFrame(
-    [[bin_country, email, tx_type]],
-    columns=["bin country", "email", "type"]
-)
+input_data = pd.DataFrame({
+    "type": [tx_type],
+    "email": [email],
+    "bin country": [bin_country]
+})
+
+# FORCE the training order
+input_data = input_data[["type", "email", "bin country"]]
 
 # --------------------------------------------------
 # Prediction button
