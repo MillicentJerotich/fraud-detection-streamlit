@@ -1,9 +1,6 @@
 
-
-
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 
 # --------------------------------------------------
@@ -40,28 +37,34 @@ except Exception as e:
     st.stop()
 
 # --------------------------------------------------
-# User input section
+# User input section (MATCHES TRAINING FEATURES)
 # --------------------------------------------------
 st.subheader("Enter Transaction Details")
 
-# ⚠️ IMPORTANT:
-# These inputs MUST match the features used when training your model.
-# Adjust names/order if your notebook used different columns.
+bin_country = st.selectbox(
+    "Country Risk Category",
+    options=[0, 1],
+    help="0 = Low-risk country, 1 = High-risk country"
+)
 
-amount = st.number_input("Transaction Amount", min_value=0.0, value=100.0)
-time = st.number_input("Transaction Time", min_value=0.0, value=0.0)
+email = st.selectbox(
+    "Email Type",
+    options=[0, 1],
+    help="0 = Free email provider, 1 = Corporate email"
+)
 
-# Example placeholder features (edit if your model uses different ones)
-v1 = st.number_input("V1", value=0.0)
-v2 = st.number_input("V2", value=0.0)
-v3 = st.number_input("V3", value=0.0)
+tx_type = st.selectbox(
+    "Transaction Type",
+    options=[0, 1],
+    help="0 = Normal transaction, 1 = High-risk transaction type"
+)
 
 # --------------------------------------------------
-# Create input dataframe (order matters!)
+# Create input dataframe (EXACT column names & order)
 # --------------------------------------------------
 input_data = pd.DataFrame(
-    [[amount, time, v1, v2, v3]],
-    columns=["Amount", "Time", "V1", "V2", "V3"]
+    [[bin_country, email, tx_type]],
+    columns=["bin country", "email", "type"]
 )
 
 # --------------------------------------------------
@@ -94,4 +97,3 @@ if st.button("🔍 Detect Fraud"):
 # --------------------------------------------------
 st.markdown("---")
 st.caption("Fraud Detection App • Streamlit Cloud Deployment")
-
